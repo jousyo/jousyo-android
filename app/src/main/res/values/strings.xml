@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">jousyo-android</string>
+    <string name="app_name">情報処理技術者試験対策</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
