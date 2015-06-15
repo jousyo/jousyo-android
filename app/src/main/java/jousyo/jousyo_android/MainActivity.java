@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import jousyo.jousyo_android.db.DbController;
+import jousyo.jousyo_android.db.Question;
+
+import static jousyo.jousyo_android.common.Constants.*;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -13,7 +18,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
