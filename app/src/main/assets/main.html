@@ -1,0 +1,22 @@
+<html>
+<head>
+    <style>
+    </style>
+        <script language="javascript">
+        function getYear() {
+		    var year;
+	        year = document.getElementById("year");
+	        year.innerHTML = JsInterface.getYear();
+        }
+    </script>
+</head>
+<body>
+    <table class="ctbl">
+        <dev id="year">test</dev><br>
+
+        <input type="button" value="値取得" onclick="getYear()">
+
+    </table>
+</body>
+
+</html>

@@ -1,9 +1,13 @@
 package jousyo.jousyo_android;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import jousyo.jousyo_android.db.DbController;
 import jousyo.jousyo_android.db.Question;
@@ -16,7 +20,19 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main); // main.xmlをセット
+
+        // Enabling JavaScript
+        WebView webView = (WebView)findViewById(R.id.webview);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        // アプリ内でHTML表示
+        webView.setWebViewClient(new WebViewClient());
+
+        // JavaScriptをAndroidへバインド
+        webView.addJavascriptInterface(new JavaScriptInterface(this), "JsInterface");
+        webView.loadUrl("file:///android_asset/main.html");
     }
 
     @Override
@@ -39,5 +55,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class JavaScriptInterface {
+        protected Context mContext;
+        JavaScriptInterface(Context context) {
+            mContext = context;
+        }
+        public String getYear() {
+            return "GET!!";
+        }
     }
 }

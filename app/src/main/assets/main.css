@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+.body_style {
+ padding: 10px ;
+ border: 1px solid gray;
+}
+
+.ctbl {
+	border-collapse:collapse;
+}
+.ctbl th, .ctbl td {
+ padding: 10px;
+ border: 2px solid gray;
+}
+
+div.right {
+	text-align: right;
+}
+
+td {
+	padding: 5px;
+}
