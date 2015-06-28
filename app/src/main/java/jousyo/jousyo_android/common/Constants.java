@@ -8,16 +8,26 @@ public class Constants {
     public static final String TABLE_NAME = "questions";
 
     // Name of column.
+    public static final String CLASSIFICATION = "classification";
     public static final String SEASON = "season";
     public static final String YEAR = "year";
     public static final String QUESTION_NUMBER = "question_number";
+    public static final String QUESTION = "question";
     public static final String CHOICE_A = "choice_a";
     public static final String CHOICE_I = "choice_i";
     public static final String CHOICE_U = "choice_u";
     public static final String CHOICE_E = "choice_e";
     public static final String ANSWER = "answer";
 
-    // Other constants.
-    public static final int SPRING = 0;
-    public static final int AUTUMN = 1;
+    // Class of classification constants
+    public static class Classification {
+        public static final String FE = "FE";
+        public static final String AP = "AP";
+    }
+
+    // Class of season constants
+    public static class Season {
+        public static final String SPRING = "spring";
+        public static final String AUTUMN = "autumn";
+    }
 }

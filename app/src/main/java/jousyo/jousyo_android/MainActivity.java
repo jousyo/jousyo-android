@@ -9,9 +9,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import jousyo.jousyo_android.db.DbController;
-import jousyo.jousyo_android.db.Question;
-
 import static jousyo.jousyo_android.common.Constants.*;
 
 
@@ -20,17 +17,17 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main); // main.xmlをセット
+        setContentView(R.layout.main); // main.xml繧偵そ繝�ヨ
 
         // Enabling JavaScript
         WebView webView = (WebView)findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // アプリ内でHTML表示
+        // 繧｢繝励Μ蜀�〒HTML陦ｨ遉ｺ
         webView.setWebViewClient(new WebViewClient());
 
-        // JavaScriptをAndroidへバインド
+        // JavaScript繧但ndroid縺ｸ繝舌う繝ｳ繝�
         webView.addJavascriptInterface(new JavaScriptInterface(this), "JsInterface");
         webView.loadUrl("file:///android_asset/main.html");
     }

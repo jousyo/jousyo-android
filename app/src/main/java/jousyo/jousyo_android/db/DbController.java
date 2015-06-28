@@ -2,27 +2,27 @@ package jousyo.jousyo_android.db;
 
 import android.content.Context;
 
-public class DbController {
+import jousyo.jousyo_android.common.Examination;
+import jousyo.jousyo_android.common.Question;
+
+public class ExamController {
 
     DatabaseAccess dbAccess;
 
-    public DbController(Context context) {
+    public DatabasebController(Context context) {
         dbAccess = new DatabaseAccess(context);
     }
 
-    // FIXME: Azama
     private boolean validation(Question question) {
-
-
         return true;
     }
 
-    public Question getQuestion(int season, int year, int question_number) {
-        Question question = new Question(season, year, question_number);
+    public Question getExamination(int questionNumber) {
+        Question question = new Question(questionNumber);
         return dbAccess.getQuestion(question);
     }
 
-    public void addQuestion(Question question) {
-        dbAccess.addQuestion(question);
+    public void addQuestion(Examination examination) {
+        dbAccess.addExamination(examination);
     }
 }

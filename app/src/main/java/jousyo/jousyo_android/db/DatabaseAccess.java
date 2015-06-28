@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+
+import jousyo.jousyo_android.common.Examination;
+import jousyo.jousyo_android.common.Question;
+
 import static jousyo.jousyo_android.common.Constants.*;
 
 public class DatabaseAccess extends SQLiteOpenHelper {
@@ -46,50 +50,56 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         super.close();
     }
 
-    public void addQuestion(Question question) {
+    public void addExamination(Examination examination) {
         ContentValues values = new ContentValues();
 
-        values.put(SEASON, question.getSeason());
-        values.put(YEAR, question.getYear());
-        values.put(QUESTION_NUMBER, question.getQuestionNumber());
-        values.put(CHOICE_A, question.getChoices()[0]);
-        values.put(CHOICE_I, question.getChoices()[1]);
-        values.put(CHOICE_U, question.getChoices()[2]);
-        values.put(CHOICE_E, question.getChoices()[3]);
-        values.put(ANSWER, question.getAnswer());
+        for (int i = 1; examination.getQuestionCount() <= i; i++) {
+            values.put(SEASON, examination.getSeason());
+            values.put(YEAR, examination.getYear());
+            values.put(QUESTION_NUMBER, i);
+            values.put(QUESTION, examination.getQuestion(i).getQuestion());
+            values.put(CHOICE_A, examination.getQuestion(i).getChoiceA());
+            values.put(CHOICE_I, examination.getQuestion(i).getChoiceI());
+            values.put(CHOICE_U, examination.getQuestion(i).getChoiceU());
+            values.put(CHOICE_E, examination.getQuestion(i).getChoiceE());
+            values.put(ANSWER, examination.getQuestion(i).getAnswer());
 
-        db.insert(TABLE_NAME, null, values);
+            db.insert(TABLE_NAME, null, values);
+        }
     }
 
-    public Question getQuestion(Question question) {
+    public Question getQuestion(Examination examination, int questionNumber) {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " +
                         SEASON + "=? AND " +
                         YEAR + "=? AND " +
                         QUESTION_NUMBER + "=?;";
 
         String where[] = {
-                question.getSeason(),
-                question.getYear(),
-                question.getQuestionNumber()
+                examination.getSeason(),
+                examination.getYear(),
+                String.valueOf(questionNumber)
         };
 
         Cursor cursor = db.rawQuery(sql, where);
+        Question question;
         if (cursor.moveToNext()) {
+            int indexQuestion = cursor.getColumnIndex(QUESTION);
             int indexChoiceA = cursor.getColumnIndex(CHOICE_A);
             int indexChoiceI = cursor.getColumnIndex(CHOICE_I);
             int indexChoiceU = cursor.getColumnIndex(CHOICE_U);
             int indexChoiceE = cursor.getColumnIndex(CHOICE_E);
             int indexAnswer = cursor.getColumnIndex(ANSWER);
-            question.setChoices(
-                    new String[]{
-                            cursor.getString(indexChoiceA),
-                            cursor.getString(indexChoiceI),
-                            cursor.getString(indexChoiceU),
-                            cursor.getString(indexChoiceE)
-                    });
-            question.setAnswer(cursor.getString(indexAnswer));
+            question = new Question(
+                    cursor.getString(indexQuestion),
+                    cursor.getString(indexChoiceA),
+                    cursor.getString(indexChoiceI),
+                    cursor.getString(indexChoiceU),
+                    cursor.getString(indexChoiceE),
+                    cursor.getString(indexAnswer)
+                    );
+            return question;
+        }else{
+            return new Question("", "", "", "", "", "");
         }
-
-        return question;
     }
 }
