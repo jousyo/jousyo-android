@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-import jousyo.jousyo_android.common.Examination;
-import jousyo.jousyo_android.common.Question;
+import jousyo.jousyo_android.common.ExaminationDTO;
+import jousyo.jousyo_android.common.ExaminationDTO;
 
 import static jousyo.jousyo_android.common.Constants.*;
 
@@ -36,9 +36,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     @Override
     public void onOpen(SQLiteDatabase db) {
@@ -50,10 +48,11 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         super.close();
     }
 
-    public void addExamination(Examination examination) {
+    public void addExamination(ExaminationDTO examination) {
         ContentValues values = new ContentValues();
 
         for (int i = 1; examination.getQuestionCount() <= i; i++) {
+            values.put(CATEGORY, examination.getCategory());
             values.put(SEASON, examination.getSeason());
             values.put(YEAR, examination.getYear());
             values.put(QUESTION_NUMBER, i);
@@ -68,38 +67,40 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         }
     }
 
-    public Question getQuestion(Examination examination, int questionNumber) {
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " +
-                        SEASON + "=? AND " +
-                        YEAR + "=? AND " +
-                        QUESTION_NUMBER + "=?;";
+    public ExaminationDTO getExamination(String category, int year, String season) {
+        ExaminationDTO examination = new ExaminationDTO();
+        examination.setCategory(category);
+        examination.setYear(year);
+        examination.setSeason(season);
 
-        String where[] = {
-                examination.getSeason(),
-                examination.getYear(),
-                String.valueOf(questionNumber)
-        };
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " +
+                        CATEGORY + "=? AND" +
+                        SEASON + "=? AND " +
+                        YEAR + "=?;";
+
+        String where[] = {category, String.valueOf(year), season};
 
         Cursor cursor = db.rawQuery(sql, where);
-        Question question;
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             int indexQuestion = cursor.getColumnIndex(QUESTION);
             int indexChoiceA = cursor.getColumnIndex(CHOICE_A);
             int indexChoiceI = cursor.getColumnIndex(CHOICE_I);
             int indexChoiceU = cursor.getColumnIndex(CHOICE_U);
             int indexChoiceE = cursor.getColumnIndex(CHOICE_E);
             int indexAnswer = cursor.getColumnIndex(ANSWER);
-            question = new Question(
+            ExaminationDTO.Question question;
+            question
+            ExaminationDTO.Question question = new Question(
                     cursor.getString(indexQuestion),
                     cursor.getString(indexChoiceA),
                     cursor.getString(indexChoiceI),
                     cursor.getString(indexChoiceU),
                     cursor.getString(indexChoiceE),
                     cursor.getString(indexAnswer)
-                    );
-            return question;
-        }else{
-            return new Question("", "", "", "", "", "");
+            );
+            examination.setQuestions();
         }
+
+        return examination;
     }
 }

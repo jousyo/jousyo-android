@@ -8,7 +8,7 @@ public class Constants {
     public static final String TABLE_NAME = "questions";
 
     // Name of column.
-    public static final String CLASSIFICATION = "classification";
+    public static final String CATEGORY = "category";
     public static final String SEASON = "season";
     public static final String YEAR = "year";
     public static final String QUESTION_NUMBER = "question_number";
