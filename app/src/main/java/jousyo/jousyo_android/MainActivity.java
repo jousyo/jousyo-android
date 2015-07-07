@@ -9,7 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import static jousyo.jousyo_android.common.Constants.*;
+import jousyo.jousyo_android.common.Constants;
 
 
 public class MainActivity extends ActionBarActivity {
