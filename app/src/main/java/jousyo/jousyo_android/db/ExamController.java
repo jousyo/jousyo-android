@@ -18,6 +18,10 @@ public class ExamController {
         return true;
     }
 
+    public void checkUpdates() {
+        String repositoryURL = "https://";
+    }
+
     public void addExamination(ExaminationDTO examination) {
 
     }
